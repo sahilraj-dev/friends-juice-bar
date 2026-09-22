@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount the sqlite DB to persist data across container restarts
+      - ./prisma/dev.db:/app/prisma/dev.db
+    environment:
+      - NODE_ENV=production
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=b63c7809a06180373d6bb6c49c7161b0c0f865f168128373b984fa5cf84218f2
+      - DATABASE_URL=file:./dev.db
+    restart: always
